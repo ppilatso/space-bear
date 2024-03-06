@@ -1,3 +1,15 @@
+import { NextFunction, Request, Response, Router } from "express";
+import { getPosts } from "../services/post.service";
 
-const router = express.Router();
+const router = Router();
 
+router.get('/posts', async (req: Request, res: Response) => {
+  try {
+    const result = await getPosts(req, res);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+export default router;

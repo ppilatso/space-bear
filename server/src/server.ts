@@ -1,4 +1,5 @@
-const express = require('express');
+import express, {NextFunction, Request, Response } from 'express';
+import routes from './routes/routes';
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 
@@ -7,15 +8,12 @@ const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));  
 app.use(cors());
+app.use(routes);
 
-app.get('/', (req: any, res: any) => {
-  const posts = prisma.post.findUnique({
-    where: { authotId: 1 }
-  });
-  
-  res.send(posts);
+app.get('/', (req: Request, res: Response) => {  
+  res.send({ status: 'Server is running' });
 });
 
 app.listen(port, () => {
