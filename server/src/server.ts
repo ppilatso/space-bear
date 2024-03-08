@@ -5,7 +5,6 @@ const { PrismaClient } = require('@prisma/client');
 
 const app = express();
 const port = process.env.PORT || 3001;
-const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));  
