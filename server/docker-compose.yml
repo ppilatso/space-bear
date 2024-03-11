@@ -1,4 +1,14 @@
 services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spacebear_dev
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+
   backend:
     build: .
     ports:
@@ -9,5 +19,8 @@ services:
       - /usr/src/app/pnpm-store
       - /usr/src/app/node_modules
     command: pnpm start:docker
+    depends_on:
+      - postgres
     environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/spacebear_dev
       - PORT=5000
