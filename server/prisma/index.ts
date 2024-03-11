@@ -1,31 +1,32 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
+import { generateId } from '../src/modules/db';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
-  // await prisma.user.create({
-  //   data:{
-  //     name: 'Phenyo',
-  //     email: 'pilatsophenyo@gmail.com',
-  //     posts: {
-  //       create: {
-  //         title: 'Hello World'
-  //       }
-  //     }
-  //   }
-  // })
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true
-    }
+  await prisma.post.createMany({
+    data: [
+      {
+        id: generateId(),
+        slug: 'ultimate-node-stack',
+        title: 'Ultimate Node Stack 2023',
+        publishedAt: new Date(),
+      },
+      {
+        id: generateId(),
+        slug: 'draft-post',
+        title: 'Draft Post',
+      },
+    ],
   });
-  console.log(allUsers, { depth: null });
 }
 
-main().then( async () => {
-  await prisma.$disconnect();
-}).catch(async (e) => {
-  console.error(e);
-  await prisma.$disconnect();
-  process.exit(1);
-})
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
