@@ -1,16 +1,26 @@
-version: '3.8'
 services:
   postgres:
-    image: postgres:latest
-    container_name: my_db_pg_container
-    restart: always
+    image: postgres:15-alpine
     environment:
-      - POSTGRES_DB=spacebear
-      - POSTGRES_USER=phenyo
-      - POSTGRES_PASSWORD=SAV1009@mix!
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spacebear_dev
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - '5432:5432'
+      - "5432:5432"
+
+  backend:
+    build: .
+    ports:
+      - 5000:5000
+      - 9229:9229 #FOR DEBUGGING
     volumes:
-      - ./migration:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - my_network
+      - .:/usr/src/app
+      - /usr/src/app/pnpm-store
+      - /usr/src/app/node_modules
+    command: pnpm start:docker
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/spacebear_dev
+      - PORT=5000
