@@ -8,7 +8,7 @@
     "start": "node dist/src/index.js",
     "start:docker": "pnpm build && node --inspect=0.0.0.0 dist/src/index.js",
     "watch": "watchy --no-init-spawn --debounce 1 -w src -- docker-compose restart backend",
-
+    "seed:dev": "docker compose run backend pnpm ts-node ./prisma/index.ts",
     "db:console": "docker compose run postgres psql -h postgres -U postgres -d spacebear_dev",
     "db:migrate": "npx prisma migrate dev",
     "docker:db:migrate": "docker compose run backend pnpm db:migrate",
@@ -25,6 +25,7 @@
     "@prisma/client": "^5.10.2",
     "express": "^4.18.3",
     "morgan": "^1.10.0",
+    "nanoid": "3",
     "typescript": "^5.4.2"
   },
   "devDependencies": {
