@@ -1,20 +1,20 @@
-// import { PrismaClient } from "@prisma/client";
-// import { Request, Response } from "express";
-// import { Post } from "../models/post.model";
+import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
-// export const getPosts = async (req: Request, res: Response) => {
+export const getPosts = async (req: Request, res: Response) => {
 
-//   const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany();
 
-//   return {
-//     posts: posts.map((post) => ({
-//       ...post,
-//       title: post.title,
-//     })),
-//   }
-// }
+  return {
+    posts: posts.map((post) => ({
+      ...post,
+      title: req.body.title,
+    }),
+    console.log(res.status(200)))    
+  }
+}
 
 // export const createPost = async (_post: Post) => {
 //   const post = await prisma.post.create({
