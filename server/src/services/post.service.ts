@@ -19,13 +19,15 @@ export const getAllPosts = async (req: Request, res: Response) => {
 }
 
 export const getPostById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id, slug } = req.params;
+  console.log(id);
   const post = await prisma.post.findUnique({
     where: {
       id: id,
+      slug: slug
     },
   });
-  return res.json(post).status(200);
+  return res.json(post?.id).status(200);
 }
 
 export const createPost = async (req: Request, res: Response) => { 
